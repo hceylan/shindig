@@ -28,6 +28,7 @@ import com.google.common.collect.Maps;
 
 import java.util.Enumeration;
 import java.util.Map;
+import java.util.TreeMap;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -94,7 +95,7 @@ public class OAuthArguments {
   private boolean signViewer = false;
   
   /** Arbitrary name/value pairs associated with the request */
-  private final Map<String, String> requestOptions = Maps.newTreeMap(String.CASE_INSENSITIVE_ORDER);
+  private final Map<String, String> requestOptions = new TreeMap<String, String>(String.CASE_INSENSITIVE_ORDER);
 
   /** Whether the request is one for proxied content */
   private boolean proxiedContentRequest = false;
