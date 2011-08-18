@@ -20,15 +20,9 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
   <modelVersion>4.0.0</modelVersion>
 
-  <parent>
-    <groupId>org.apache</groupId>
-    <artifactId>apache</artifactId>
-    <version>7</version>
-  </parent>
-
   <groupId>org.apache.shindig</groupId>
   <artifactId>shindig-project</artifactId>
-  <version>2.0.3-SNAPSHOT</version>
+  <version>2.0.2-netmera-1-SNAPSHOT</version>
   <packaging>pom</packaging>
 
   <name>Apache Shindig Project</name>
@@ -55,380 +49,41 @@
   <!-- S C M                                                                  -->
   <!-- ====================================================================== -->
   <scm>
-    <connection>scm:svn:http://svn.apache.org/repos/asf/shindig/branches/2.0.x</connection>
-    <developerConnection>scm:svn:https://svn.apache.org/repos/asf/shindig/branches/2.0.x</developerConnection>
-    <url>http://svn.apache.org/viewvc/shindig/branches/2.0.x</url>
+    <connection>scm:git:git://github.com/hceylan/shindig.git</connection>
+    <developerConnection>scm:git:git@github.com:hceylan/shindig.git</developerConnection>
+    <url>https://github.com/hceylan/shindig</url>
   </scm>
-
-  <!-- ====================================================================== -->
-  <!-- I S S U E  M A N A G E M E N T                                         -->
-  <!-- ====================================================================== -->
-  <issueManagement>
-    <system>jira</system>
-    <url>http://issues.apache.org/jira/browse/SHINDIG</url>
-  </issueManagement>
-
-  <!-- ====================================================================== -->
-  <!-- C I  M A N A G E M E N T                                               -->
-  <!-- ====================================================================== -->
-  <ciManagement>
-    <system>Hudson</system>
-    <url>http://hudson.zones.apache.org/hudson/job/Shindig/</url>
-  </ciManagement>
 
   <!-- ====================================================================== -->
   <!-- D I S T R I B U T I O N  M A N A G E M E N T                           -->
   <!-- ====================================================================== -->
   <distributionManagement>
-    <!-- This is the technical website for Shindig 2.0.x -->
-    <site>
-      <id>apache.website</id>
-      <url>scp://people.apache.org/www/shindig.apache.org/shindig-2.0.x</url>
-    </site>
+    <repository>
+      <id>inomera</id>
+      <name>inomera</name>
+      <url>scp://netmera.com/srv/maven</url>
+    </repository>
+    <snapshotRepository>
+      <id>inomera</id>
+      <name>Repository Name</name>
+      <url>scp://netmera.com/srv/maven-snapshots</url>
+    </snapshotRepository>
   </distributionManagement>
-
-  <!-- ====================================================================== -->
-  <!-- M A I L I N G   L I S T S                                              -->
-  <!-- ====================================================================== -->
-  <mailingLists>
-    <mailingList>
-      <name>Shindig Dev List</name>
-      <subscribe>dev-subscribe@shindig.apache.org</subscribe>
-      <unsubscribe>dev-unsubscribe@shindig.apache.org</unsubscribe>
-      <post>dev@shindig.apache.org</post>
-      <archive>http://mail-archives.apache.org/mod_mbox/shindig-dev/</archive>
-      <otherArchives>
-        <otherArchive>http://shindig-dev.markmail.org/</otherArchive>
-      </otherArchives>
-    </mailingList>
-    <mailingList>
-      <name>Shindig Users List</name>
-      <subscribe>users-subscribe@shindig.apache.org</subscribe>
-      <unsubscribe>users-unsubscribe@shindig.apache.org</unsubscribe>
-      <archive>http://mail-archives.apache.org/mod_mbox/shindig-users/</archive>
-    </mailingList>
-    <mailingList>
-      <name>Shindig Commit List</name>
-      <subscribe>commits-subscribe@shindig.apache.org</subscribe>
-      <unsubscribe>commits-unsubscribe@shindig.apache.org</unsubscribe>
-      <archive>http://mail-archives.apache.org/mod_mbox/shindig-commits/</archive>
-    </mailingList>
-    <mailingList>
-      <name>Shindig Issues List</name>
-      <subscribe>issues-subscribe@shindig.apache.org</subscribe>
-      <unsubscribe>issues-unsubscribe@shindig.apache.org</unsubscribe>
-      <archive>http://mail-archives.apache.org/mod_mbox/shindig-issues/</archive>
-    </mailingList>
-  </mailingLists>
 
   <!-- ====================================================================== -->
   <!-- P E O P L E                                                            -->
   <!-- ====================================================================== -->
   <!-- Developers listed by PMC Chair, PMC, Mentors, Committers, Contributers, all alphabetical-->
   <developers>
-    <!-- PMC Chair -->
     <developer>
-      <id>lindner</id>
-      <name>Paul Lindner</name>
-      <email>lindner@apache.org</email>
-      <organization>ASF</organization>
+      <id>hceylan</id>
+      <name>Hasan Ceylan</name>
+      <email>hceylan@batoo.org</email>
+      <organization>batoo.org</organization>
       <roles>
-        <role>PMC Chair</role>
+        <role>Shindig Fork Responsible</role>
       </roles>
     </developer>
-    <!-- PMC -->
-    <developer>
-      <id>agektmr</id>
-      <name>Eiji Kitamura</name>
-      <email>agektmr@apache.org</email>
-      <organization>ASF</organization>
-      <roles>
-        <role>PMC Member</role>
-      </roles>
-    </developer>
-    <developer>
-      <id>bhofmann</id>
-      <name>Bastian Hofmann</name>
-      <email>bhofmann@apache.org</email>
-      <organization>ASF</organization>
-      <roles>
-        <role>PMC Member</role>
-      </roles>
-    </developer>
-    <developer>
-      <id>brianm</id>
-      <name>Brian McCallister</name>
-      <email>brianm@apache.org</email>
-      <organization>ASF</organization>
-      <roles>
-        <role>PMC Member</role>
-        <role>Mentor</role>
-      </roles>
-    </developer>
-    <developer>
-      <id>chabotc</id>
-      <name>Chris Chabot</name>
-      <email>chabotc@apache.org</email>
-      <organization>ASF</organization>
-      <roles>
-        <role>PMC Member</role>
-      </roles>
-    </developer>
-    <developer>
-      <id>dbentley</id>
-      <name>Daniel Bentley</name>
-      <email>dbentley@apache.org</email>
-      <organization>ASF</organization>
-      <roles>
-        <role>PMC Member</role>
-      </roles>
-    </developer>
-    <developer>
-      <id>doll</id>
-      <name>Cassie Doll</name>
-      <email>doll@apache.org</email>
-      <organization>ASF</organization>
-      <roles>
-        <role>PMC Member</role>
-      </roles>
-    </developer>
-    <developer>
-      <id>dpeterson</id>
-      <name>Dan Peterson</name>
-      <email>dpeterson@apache.org</email>
-      <organization>ASF</organization>
-      <roles>
-        <role>PMC Member</role>
-      </roles>
-    </developer>
-    <developer>
-      <id>etnu</id>
-      <name>Kevin Brown</name>
-      <email>etnu@apache.org</email>
-      <organization>ASF</organization>
-      <roles>
-        <role>PMC Member</role>
-      </roles>
-    </developer>
-    <developer>
-      <id>ieb</id>
-      <name>Ian Boston</name>
-      <email>ieb@apache.org</email>
-      <organization>ASF</organization>
-      <roles>
-        <role>PMC Member</role>
-      </roles>
-    </developer>
-    <developer>
-      <id>evan</id>
-      <name>Evan Gilbert</name>
-      <email>evan@apache.org</email>
-      <organization>ASF</organization>
-      <roles>
-        <role>PMC Member</role>
-      </roles>
-    </developer>
-    <developer>
-      <id>jasvir</id>
-      <name>Jasvir Nagra</name>
-      <email>jasvir@apache.org</email>
-      <organization>ASF</organization>
-      <roles>
-        <role>PMC Member</role>
-      </roles>
-    </developer>
-    <developer>
-      <id>johnh</id>
-      <name>John Hjelmstad</name>
-      <email>johnh@apache.org</email>
-      <organization>ASF</organization>
-      <roles>
-        <role>PMC Member</role>
-      </roles>
-    </developer>
-    <developer>
-      <id>jyang</id>
-      <name>Jun Yang</name>
-      <email>jyang@apache.org</email>
-      <organization>ASF</organization>
-      <roles>
-        <role>PMC Member</role>
-      </roles>
-    </developer>
-    <developer>
-      <id>sgala</id>
-      <name>Santiago Gala</name>
-      <email>sgala@hisitech.com</email>
-      <organization>ASF</organization>
-      <roles>
-       <role>Emeritus Mentor</role>
-      </roles>
-    </developer>
-    <developer>
-      <id>lryan</id>
-      <name>Louis Ryan</name>
-      <email>lryan@apache.org</email>
-      <organization>ASF</organization>
-      <roles>
-        <role>PMC Member</role>
-      </roles>
-    </developer>
-    <developer>
-      <id>martint</id>
-      <name>Martin Traverso</name>
-      <email>martint@apache.org</email>
-      <organization>ASF</organization>
-      <roles>
-        <role>PMC Member</role>
-      </roles>
-    </developer>
-    <developer>
-      <id>vsiveton</id>
-      <name>Vincent Siveton</name>
-      <email>vsiveton@apache.org</email>
-      <organization>ASF</organization>
-      <roles>
-        <role>PMC Member</role>
-      </roles>
-    </developer>
-    <developer>
-      <id>zhen</id>
-      <name>Zhen Wang</name>
-      <email>zhen@apache.org</email>
-      <organization>ASF</organization>
-      <roles>
-        <role>PMC Member</role>
-      </roles>
-    </developer>
-    <developer>
-      <id>awiner</id>
-      <name>Adam Winer</name>
-      <email>awiner@apache.org</email>
-      <organization>ASF</organization>
-      <roles>
-        <role>PMC Member</role>
-      </roles>
-    </developer>
-    <developer>
-      <id>chico</id>
-      <name>Chico Charlesworth</name>
-      <email>chico@apache.org</email>
-      <organization>ASF</organization>
-      <roles>
-        <role>PMC Member</role>
-      </roles>
-    </developer>
-    <developer>
-      <id>chirag</id>
-      <name>Chirag Shah</name>
-      <email>chirag@apache.org</email>
-      <organization>ASF</organization>
-      <roles>
-        <role>PMC Member</role>
-      </roles>
-    </developer>
-    <developer>
-      <id>hsaputra</id>
-      <name>Henry Saputra</name>
-      <email>hsaputra@apache.org</email>
-      <organization>ASF</organization>
-      <roles>
-        <role>PMC Member</role>
-      </roles>
-    </developer>
-    <developer>
-      <id>chaowang</id>
-      <name>Jacky Wang</name>
-      <email>chaowang@apache.org</email>
-      <organization>ASF</organization>
-      <roles>
-        <role>PMC Member</role>
-      </roles>
-    </developer>
-    <developer>
-      <id>zhoresh</id>
-      <name>Ziv Horesh</name>
-      <email>zhoresh@apache.org</email>
-      <organization>ASF</organization>
-      <roles>
-        <role>PMC Member</role>
-      </roles>
-    </developer>
-    <developer>
-      <id>gagan</id>
-      <name>Gagandeep Singh</name>
-      <email>gagan@apache.org</email>
-      <organization>ASF</organization>
-      <roles>
-        <role>PMC Member</role>
-      </roles>
-    </developer>
-    <developer>
-      <id>hnguy</id>
-      <name>Han Nguyen</name>
-      <email>hnguy@apache.org</email>
-      <organization>ASF</organization>
-      <roles>
-        <role>PMC Member</role>
-      </roles>
-    </developer>
-
-    <!-- Mentors -->
-    <developer>
-      <id>fitz</id>
-      <name>Brian Fitzpatrick</name>
-      <email>fitz@apache.org</email>
-      <organization>ASF</organization>
-      <roles>
-        <role>Mentor</role>
-      </roles>
-    </developer>
-    <developer>
-      <id>gstein</id>
-      <name>Greg Stein</name>
-      <email>gstein@apache.org</email>
-      <organization>ASF</organization>
-      <roles>
-        <role>Emeritus Mentor</role>
-      </roles>
-    </developer>
-    <developer>
-      <id>sylvain</id>
-      <name>Sylvain Wallez</name>
-      <email>sylvain@apache.org</email>
-      <organization>ASF</organization>
-      <roles>
-        <role>Mentor</role>
-      </roles>
-    </developer>
-    <developer>
-      <id>tomdz</id>
-      <name>Thomas Dudziak</name>
-      <email>tomdz@apache.org</email>
-      <organization>ASF</organization>
-      <roles>
-        <role>Mentor</role>
-      </roles>
-    </developer>
-    <developer>
-      <id>upayavira</id>
-      <name>Upayavira</name>
-      <email>upayavira@apache.org</email>
-      <organization>ASF</organization>
-      <roles>
-        <role>Mentor</role>
-      </roles>
-    </developer>
-    <developer>
-      <id>dharkness</id>
-      <name>David Harkness</name>
-      <email>dharkness@apache.org</email>
-      <organization>ASF</organization>
-      <roles>
-        <role>Emeritus</role>
-      </roles>
-    </developer>
-    <!--Committers-->
   </developers>
 
   <!-- ====================================================================== -->
@@ -560,6 +215,13 @@
       </modules>
       <build>
         <plugins>
+          <plugin>
+            <artifactId>maven-release-plugin</artifactId>
+            <version>2.1</version>
+            <configuration>
+              <useReleaseProfile>true</useReleaseProfile>
+            </configuration>
+          </plugin>
           <plugin>
             <groupId>org.codehaus.mojo</groupId>
             <artifactId>cobertura-maven-plugin</artifactId>
@@ -1129,11 +791,6 @@
         </plugin>
 
         <!-- Mojo -->
-        <plugin>
-          <groupId>org.codehaus.mojo</groupId>
-          <artifactId>clirr-maven-plugin</artifactId>
-          <version>2.2.2</version>
-        </plugin>
         <plugin>
           <groupId>org.codehaus.mojo</groupId>
           <artifactId>cobertura-maven-plugin</artifactId>
