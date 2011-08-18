@@ -307,11 +307,6 @@ public class RenderingGadgetRewriter implements GadgetRewriter {
       externForcedLibs = Sets.newTreeSet(Splitter.on(':').split(externParam));
     }
 
-    // Inject extern script
-    if (!externForcedLibs.isEmpty()) {
-      injectScript(externForcedLibs, null, false, gadget, headTag, firstHeadChild, "");
-    }
-
     Collection<String> gadgetLibs = gadget.getDirectFeatureDeps();
 
     // Get config for all features
@@ -320,9 +315,8 @@ public class RenderingGadgetRewriter implements GadgetRewriter {
     String libraryConfig =
       getLibraryConfig(gadget, featureRegistry.getFeatures(allLibs));
 
-    // Inject internal script
-    injectScript(gadgetLibs, externForcedLibs, !externalizeFeatures,
-        gadget, headTag, firstHeadChild, libraryConfig);
+    // Inject script
+    injectScript(gadgetLibs, externForcedLibs, gadget, headTag, firstHeadChild, libraryConfig);
   }
 
   /**
@@ -370,29 +364,28 @@ public class RenderingGadgetRewriter implements GadgetRewriter {
   /**
    * Add script tag with either js content (inline=true) or script src tag
    */
-  protected void injectScript(Collection<String> libs, Collection<String> loaded, boolean inline,
-      Gadget gadget, Node headTag, Node firstHeadChild, String extraContent)
+  protected void injectScript(Collection<String> gadgetLibs, Collection<String> externForcedLibs, Gadget gadget, Node headTag, Node firstHeadChild, String extraContent)
       throws GadgetException {
 
+    Collection<String> externLibs = Sets.newHashSet(externForcedLibs);
+    if (externalizeFeatures){
+      externLibs.addAll(gadgetLibs);
+    }
+    injectExternalScript(externLibs, gadget, headTag, firstHeadChild);
+    
+    injectInternalScript(gadgetLibs, externForcedLibs, gadget, headTag, firstHeadChild, extraContent);
+  }
+
+  private void injectInternalScript(Collection<String> gadgetLibs,
+          Collection<String> externForcedLibs, Gadget gadget, Node headTag, Node firstHeadChild, String extraContent) throws GadgetException {
     GadgetContext context = gadget.getContext();
+    
     // Gadget is not specified in request in order to support better caching
     JsUri jsUri = new JsUri(null, context.getDebug(), false, context.getContainer(), null,
-        libs, loaded, null, false, false, RenderingContext.getDefault(), null,
-        getFeatureRepositoryId(gadget));
-    jsUri.setCajoleContent(gadget.requiresCaja());
+            gadgetLibs, externForcedLibs, null, false, false, RenderingContext.getDefault(), null,
+            getFeatureRepositoryId(gadget));
 
-    String content = "";
-    if (!inline) {
-      String jsUrl = new UriBuilder(jsUriManager.makeExternJsUri(jsUri))
-          // Avoid jsload by adding jsload=0
-          .addQueryParameter(UriCommon.Param.JSLOAD.getKey(), "0")
-          .toString();
-      Element libsTag = headTag.getOwnerDocument().createElement("script");
-      libsTag.setAttribute("src", jsUrl);
-      headTag.insertBefore(libsTag, firstHeadChild);
-    } else {
-      content = getFeaturesContent(jsUri);
-    }
+    String content = externalizeFeatures ? "" : getFeaturesContent(jsUri);
 
     content = content + extraContent;
     if (content.length() > 0) {
@@ -400,6 +393,24 @@ public class RenderingGadgetRewriter implements GadgetRewriter {
       headTag.insertBefore(inlineTag, firstHeadChild);
       inlineTag.appendChild(headTag.getOwnerDocument().createTextNode(content));
     }
+  }
+
+  private void injectExternalScript(Collection<String> externLibs, Gadget gadget, Node headTag,
+          Node firstHeadChild) {
+    GadgetContext context = gadget.getContext();
+
+    JsUri jsUri = new JsUri(null, context.getDebug(), false, context.getContainer(), null,
+            externLibs, null, null, false, false, RenderingContext.getDefault(), null,
+            getFeatureRepositoryId(gadget));
+
+    jsUri.setCajoleContent(gadget.requiresCaja());
+
+    String jsUrl = new UriBuilder(jsUriManager.makeExternJsUri(jsUri))
+            .addQueryParameter(UriCommon.Param.JSLOAD.getKey(), "0").toString();
+
+    Element libsTag = headTag.getOwnerDocument().createElement("script");
+    libsTag.setAttribute("src", jsUrl);
+    headTag.insertBefore(libsTag, firstHeadChild);
   }
 
   /**
@@ -478,3 +489,4 @@ public class RenderingGadgetRewriter implements GadgetRewriter {
     scriptTag.appendChild(text);
   }
 }
+
