@@ -227,13 +227,6 @@ public class RenderingGadgetRewriter implements GadgetRewriter {
       externForcedLibs = Sets.newTreeSet(Arrays.asList(StringUtils.split(externParam, ':')));
     }
 
-    if (!externForcedLibs.isEmpty()) {
-      String jsUrl = jsUriManager.makeExternJsUri(gadget, externForcedLibs).toString();
-      Element libsTag = headTag.getOwnerDocument().createElement("script");
-      libsTag.setAttribute("src", jsUrl);
-      headTag.insertBefore(libsTag, firstHeadChild);
-    }
-
     List<String> unsupported = Lists.newLinkedList();
 
     List<FeatureResource> externForcedResources =
@@ -265,19 +258,20 @@ public class RenderingGadgetRewriter implements GadgetRewriter {
     List<FeatureResource> inlineResources = Lists.newArrayList();
     List<String> allRequested = Lists.newArrayList(gadgetFeatureKeys);
 
+    Set<String> externLibs = Sets.newHashSet(externForcedLibs);
+    
     if (externalizeFeatures) {
-      Set<String> externGadgetLibs = Sets.newTreeSet(featureRegistry.getFeatures(gadgetFeatureKeys));
-      externGadgetLibs.removeAll(externForcedLibs);
-
-      if (!externGadgetLibs.isEmpty()) {
-        String jsUrl = jsUriManager.makeExternJsUri(gadget, externGadgetLibs).toString();
-        Element libsTag = headTag.getOwnerDocument().createElement("script");
-        libsTag.setAttribute("src", jsUrl);
-        headTag.insertBefore(libsTag, firstHeadChild);
-      }
+      externLibs.addAll(Sets.newTreeSet(featureRegistry.getFeatures(gadgetFeatureKeys)));
     } else {
       inlineResources.addAll(gadgetResources);
     }
+
+    if (!externLibs.isEmpty()) {
+        String jsUrl = jsUriManager.makeExternJsUri(gadget, externLibs).toString();
+        Element libsTag = headTag.getOwnerDocument().createElement("script");
+        libsTag.setAttribute("src", jsUrl);
+        headTag.insertBefore(libsTag, firstHeadChild);
+     }
 
     // Calculate inlineResources as all resources that are needed by the gadget to
     // render, minus all those included through externResources.
