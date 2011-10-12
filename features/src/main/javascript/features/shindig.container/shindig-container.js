@@ -386,6 +386,9 @@ shindig.FloatLeftLayoutManager.prototype.getGadgetChrome =
  *    "width": width of the gadget
  *    "debug": send debug=1 to the gadget server, gets us uncompressed
  *        javascript.
+ *    "requiresPubSub2": Whether this gadget requires pubsub-2. This parameter is 
+ *        optional. In absence of this parameter a metadata request will be sent 
+ *        to server to query pubsub-2 requirement.
  */
 shindig.Gadget = function(params) {
   this.userPrefs = {};
@@ -644,6 +647,14 @@ shindig.BaseIfrGadget.prototype.refresh = function() {
 };
 
 shindig.BaseIfrGadget.prototype.queryIfrGadgetType_ = function() {
+  var gadget = this;
+  
+  //if we are provided with requiresPubsub2 then use it
+  if (this.hasOwnProperty("requiresPubSub2")) {
+	  setSubclass(this.requiresPubSub2);
+	  return;
+  }
+	
   // Get the gadget metadata and check if the gadget requires the 'pubsub-2'
   // feature.  If so, then we use OpenAjax Hub in order to create and manage
   // the iframe.  Otherwise, we create the iframe ourselves.
@@ -674,7 +685,6 @@ shindig.BaseIfrGadget.prototype.queryIfrGadgetType_ = function() {
       'application/javascript'
   );
 
-  var gadget = this;
   function handleJSONResponse(obj) {
     var requiresPubSub2 = false;
     var arr = obj.data.gadgets[0].features;
@@ -684,6 +694,11 @@ shindig.BaseIfrGadget.prototype.queryIfrGadgetType_ = function() {
         break;
       }
     }
+    
+    setSubclass(requiresPubSub2);
+  }
+  
+  function setSubclass(requiresPubSub2) {
     var subClass = requiresPubSub2 ? shindig.OAAIfrGadget : shindig.IfrGadget;
     for (var name in subClass) if (subClass.hasOwnProperty(name)) {
       gadget[name] = subClass[name];
