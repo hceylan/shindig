@@ -375,7 +375,7 @@ public class OAuthRequest {
   /**
    * Strip out any owner or viewer identity information passed by the client.
    */
-  private List<Parameter> sanitize(List<Parameter> params) throws OAuthRequestException {
+  protected List<Parameter> sanitize(List<Parameter> params) throws OAuthRequestException {
     ArrayList<Parameter> list = Lists.newArrayList();
     for (Parameter p : params) {
       String name = p.getKey();
@@ -400,7 +400,7 @@ public class OAuthRequest {
    * This gives a chance to override parameters by passing trusted parameters.
    *
    */
-  private void overrideParameters(List<Parameter> authParams)
+  protected void overrideParameters(List<Parameter> authParams)
     throws OAuthRequestException {
     if (trustedParams == null) {
       return;
@@ -426,7 +426,7 @@ public class OAuthRequest {
   /**
    * Add identity information, such as owner/viewer/gadget.
    */
-  private void addIdentityParams(List<Parameter> params) {
+  protected void addIdentityParams(List<Parameter> params) {
     // If no owner or viewer information is required, don't add any identity params.  This lets
     // us be compatible with strict OAuth service providers that reject extra parameters on
     // requests.
@@ -463,7 +463,7 @@ public class OAuthRequest {
   /**
    * Add signature type to the message.
    */
-  private void addSignatureParams(List<Parameter> params) {
+  protected void addSignatureParams(List<Parameter> params) {
     if (accessorInfo.getConsumer().getConsumer().consumerKey == null) {
       params.add(
           new Parameter(OAuth.OAUTH_CONSUMER_KEY, realRequest.getSecurityToken().getDomain()));
@@ -568,7 +568,7 @@ public class OAuthRequest {
     }
   }
 
-  private HttpRequest createHttpRequest(HttpRequest base,
+  protected HttpRequest createHttpRequest(HttpRequest base,
       List<Map.Entry<String, String>> oauthParams) throws OAuthRequestException {
 
     OAuthParamLocation paramLocation = accessorInfo.getParamLocation();
@@ -939,7 +939,7 @@ public class OAuthRequest {
    *
    * @return a list that contains only the oauth_related parameters.
    */
-  static List<Map.Entry<String, String>> selectOAuthParams(OAuthMessage message) {
+  protected static List<Map.Entry<String, String>> selectOAuthParams(OAuthMessage message) {
     List<Map.Entry<String, String>> result = Lists.newArrayList();
     for (Map.Entry<String, String> param : OAuthUtil.getParameters(message)) {
       if (isContainerInjectedParameter(param.getKey())) {
